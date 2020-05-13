@@ -272,6 +272,8 @@ body:after {
   position: absolute;
   top: 0;
   width: 100%;
+  left: 50%;
+
   border-bottom: rgba(255, 255, 255, 0.7); }
   .site-navbar:hover {
     background: #fff; }
@@ -491,7 +493,7 @@ body:after {
     .site-mobile-menu .site-nav-wrap > li {
       display: block;
       position: relative;
-      float: left;
+      float: right;
       width: 100%; }
       .site-mobile-menu .site-nav-wrap > li > a {
         padding-left: 20px;
@@ -526,7 +528,7 @@ body:after {
 .sticky-wrapper {
   position: absolute;
   z-index: 100;
-  width: 100%; }
+  width: 40%; }
   .sticky-wrapper .site-navbar {
     -webkit-transition: .3s all ease;
     -o-transition: .3s all ease;
@@ -622,40 +624,6 @@ body:after {
 
 .position-relative {
   position: relative; }
-
-.service {
-  padding: 30px;
-  background: #fff;
-  -webkit-box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 2px 0px rgba(0, 0, 0, 0.1);
-  -webkit-transition: .3s all ease-in-out;
-  -o-transition: .3s all ease-in-out;
-  transition: .3s all ease-in-out;
-  top: 0;
-  position: relative; }
-  .service:hover {
-    -webkit-box-shadow: 0 8px 50px -5px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 8px 50px -5px rgba(0, 0, 0, 0.1);
-    top: -2px; }
-  .service .service-number {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 60px;
-    flex: 0 0 60px; }
-    .service .service-number span {
-      position: relative;
-      width: 50px;
-      height: 50px;
-      line-height: 50px;
-      border-radius: 50%;
-      background: #207561;
-      display: inline-block;
-      color: #fff;
-      text-align: center; }
-  .service .service-about *:last-child {
-    margin-bottom: 0; }
-  .service .service-about h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px; }
 
 .gal-item {
   margin-bottom: 30px; }
