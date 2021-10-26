@@ -1,187 +1,128 @@
 
-  var Module = typeof Module !== 'undefined' ? Module : {};
-  
-  if (!Module.expectedDataFileDownloads) {
-    Module.expectedDataFileDownloads = 0;
-  }
-  Module.expectedDataFileDownloads++;
-  (function() {
-   var loadPackage = function(metadata) {
-  
-      var PACKAGE_PATH = '';
-      if (typeof window === 'object') {
-        PACKAGE_PATH = window['encodeURIComponent'](window.location.pathname.toString().substring(0, window.location.pathname.toString().lastIndexOf('/')) + '/');
-      } else if (typeof process === 'undefined' && typeof location !== 'undefined') {
-        // web worker
-        PACKAGE_PATH = encodeURIComponent(location.pathname.toString().substring(0, location.pathname.toString().lastIndexOf('/')) + '/');
-      }
-      var PACKAGE_NAME = 'fonts.data';
-      var REMOTE_PACKAGE_BASE = 'fonts.data';
-      if (typeof Module['locateFilePackage'] === 'function' && !Module['locateFile']) {
-        Module['locateFile'] = Module['locateFilePackage'];
-        err('warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)');
-      }
-      var REMOTE_PACKAGE_NAME = Module['locateFile'] ? Module['locateFile'](REMOTE_PACKAGE_BASE, '') : REMOTE_PACKAGE_BASE;
-    
-      var REMOTE_PACKAGE_SIZE = metadata['remote_package_size'];
-      var PACKAGE_UUID = metadata['package_uuid'];
-    
-      function fetchRemotePackage(packageName, packageSize, callback, errback) {
-        
-        if (typeof process === 'object' && typeof process.versions === 'object' && typeof process.versions.node === 'string') {
-          require('fs').readFile(packageName, function(err, contents) {
-            if (err) {
-              errback(err);
-            } else {
-              callback(contents.buffer);
-            }
-          });
-          return;
-        }
-      
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', packageName, true);
-        xhr.responseType = 'arraybuffer';
-        xhr.onprogress = function(event) {
-          var url = packageName;
-          var size = packageSize;
-          if (event.total) size = event.total;
-          if (event.loaded) {
-            if (!xhr.addedTotal) {
-              xhr.addedTotal = true;
-              if (!Module.dataFileDownloads) Module.dataFileDownloads = {};
-              Module.dataFileDownloads[url] = {
-                loaded: event.loaded,
-                total: size
-              };
-            } else {
-              Module.dataFileDownloads[url].loaded = event.loaded;
-            }
-            var total = 0;
-            var loaded = 0;
-            var num = 0;
-            for (var download in Module.dataFileDownloads) {
-            var data = Module.dataFileDownloads[download];
-              total += data.total;
-              loaded += data.loaded;
-              num++;
-            }
-            total = Math.ceil(total * Module.expectedDataFileDownloads/num);
-            if (Module['setStatus']) Module['setStatus']('Downloading data... (' + loaded + '/' + total + ')');
-          } else if (!Module.dataFileDownloads) {
-            if (Module['setStatus']) Module['setStatus']('Downloading data...');
-          }
-        };
-        xhr.onerror = function(event) {
-          throw new Error("NetworkError for: " + packageName);
-        }
-        xhr.onload = function(event) {
-          if (xhr.status == 200 || xhr.status == 304 || xhr.status == 206 || (xhr.status == 0 && xhr.response)) { // file URLs can return 0
-            var packageData = xhr.response;
-            callback(packageData);
-          } else {
-            throw new Error(xhr.statusText + " : " + xhr.responseURL);
-          }
-        };
-        xhr.send(null);
-      };
 
-      function handleError(error) {
-        console.error('package error:', error);
-      };
-    
-        var fetchedCallback = null;
-        var fetched = Module['getPreloadedPackage'] ? Module['getPreloadedPackage'](REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE) : null;
+document.body.style.backgroundColor = "#171717";
+document.body.style.width = '70%';
+document.body.style.height= '100%';
 
-        if (!fetched) fetchRemotePackage(REMOTE_PACKAGE_NAME, REMOTE_PACKAGE_SIZE, function(data) {
-          if (fetchedCallback) {
-            fetchedCallback(data);
-            fetchedCallback = null;
-          } else {
-            fetched = data;
-          }
-        }, handleError);
-      
-    function runWithFS() {
-  
-      function assert(check, msg) {
-        if (!check) throw msg + new Error().stack;
-      }
-  Module['FS_createPath']("/", "resources", true, true);
-Module['FS_createPath']("/resources", "fonts", true, true);
+let buttons = [];
+let labels = ["HOME", "PRODUCTS", "ABOUT", "CONTACT"];
 
-          /** @constructor */
-          function DataRequest(start, end, audio) {
-            this.start = start;
-            this.end = end;
-            this.audio = audio;
-          }
-          DataRequest.prototype = {
-            requests: {},
-            open: function(mode, name) {
-              this.name = name;
-              this.requests[name] = this;
-              Module['addRunDependency']('fp ' + this.name);
-            },
-            send: function() {},
-            onload: function() {
-              var byteArray = this.byteArray.subarray(this.start, this.end);
-              this.finish(byteArray);
-            },
-            finish: function(byteArray) {
-              var that = this;
-      
-          Module['FS_createDataFile'](this.name, null, byteArray, true, true, true); // canOwn this data in the filesystem, it is a slide into the heap that will never change
-          Module['removeRunDependency']('fp ' + that.name);
-  
-              this.requests[this.name] = null;
-            }
-          };
-      
-              var files = metadata['files'];
-              for (var i = 0; i < files.length; ++i) {
-                new DataRequest(files[i]['start'], files[i]['end'], files[i]['audio'] || 0).open('GET', files[i]['filename']);
-              }
-      
-        
-      function processPackageData(arrayBuffer) {
-        assert(arrayBuffer, 'Loading data file failed.');
-        assert(arrayBuffer instanceof ArrayBuffer, 'bad input to processPackageData');
-        var byteArray = new Uint8Array(arrayBuffer);
-        var curr;
-        
-          // Reuse the bytearray from the XHR as the source for file reads.
-          DataRequest.prototype.byteArray = byteArray;
-    
-            var files = metadata['files'];
-            for (var i = 0; i < files.length; ++i) {
-              DataRequest.prototype.requests[files[i].filename].onload();
-            }
-                Module['removeRunDependency']('datafile_fonts.data');
 
-      };
-      Module['addRunDependency']('datafile_fonts.data');
-    
-      if (!Module.preloadResults) Module.preloadResults = {};
-    
-        Module.preloadResults[PACKAGE_NAME] = {fromCache: false};
-        if (fetched) {
-          processPackageData(fetched);
-          fetched = null;
-        } else {
-          fetchedCallback = processPackageData;
-        }
-      
+let products = [["GreenLight", "./greenlight.png", "Trattatello", "#3cbe79", "Dynamic phaser and flanger with a unique sound"]];
+
+function main() {
+
+    let divisor = document.body.clientWidth > 1200 ? 6.0 : 12.0;
+    let left =  document.body.clientWidth / divisor;
+    let width =  document.body.clientWidth - (2 * (document.body.clientWidth / divisor));
+
+    let content = document.createElement("DIV");
+    content.style.cssText = "border-radius:0%; border:none; outline:none; background-color:#171717;";
+    content.style.position = "fixed";
+    content.style.left = "x0px".replace("x0", left);
+    content.style.width = "x0px".replace("x0", width);
+    content.style.height = document.body.clientHeight;
+    document.body.appendChild(content);
+
+    let panel = document.createElement("DIV");
+    panel.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#f0f0f0; position:absolute; top:55px; left:0px;";
+    panel.style.height = "2px";
+    panel.style.width = "x0px".replace("x0", width);
+    content.appendChild(panel);
+
+    var logo = document.createElement('img');
+    logo.src = "./Octagon_extra.png";
+
+    logo.style.width = "130px";
+    logo.style.height = "auto";
+    logo.style.top = "0px";
+    logo.style.left = "12px";
+    logo.style.position = "absolute";
+    content.appendChild(logo);
+
+    for (let i = 0; i < 4; i++) {
+      buttons[i] = document.createElement("BUTTON");
+      buttons[i].innerHTML = labels[i];
+      buttons[i].style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:transparent; position:absolute;  top:2px; left:x0px;".replace("x0", 170 + (i * 80));
+      buttons[i].className = "button";
+      buttons[i].style.height = "48px";
+      buttons[i].style.width = "80px";
+      buttons[i].style.fontFamily = "LucidaGrande";
+      buttons[i].style.zIndez = "5";
+      //buttons[i].addEventListener("click", buttonpresets[i][2]);
+      content.appendChild(buttons[i])
     }
-    if (Module['calledRun']) {
-      runWithFS();
-    } else {
-      if (!Module['preRun']) Module['preRun'] = [];
-      Module["preRun"].push(runWithFS); // FS is not initialized yet, wait for it
+
+    for (let i = 0; i < products.length; i++) {
+
+      let name = products[i][0];
+      let img = products[i][1];
+      let font = products[i][2];
+      let color = products[i][3];
+      let desc = products[i][4];
+
+      let panel = document.createElement("DIV");
+      panel.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#141414; position:absolute; top:100px; left:0px;";
+      panel.style.height = "300px";
+      panel.style.left = "x0px".replace("x0", left);
+      panel.style.width = "x0px".replace("x0", width);
+
+      let product_logo = document.createElement("DIV");
+      product_logo.innerHTML += name;
+      product_logo.style.cssText = "font-family: Trattatello; border-radius:0%; border:none; outline:none; font-size:60px; color:product_color; background-color:transparent; position:absolute; top:20px; left:0px;".replace("product_font", font).replace("product_color", color)
+      product_logo.style.height = "70px";
+      product_logo.style.left = "40px";
+      product_logo.style.width = "300px";
+      panel.appendChild(product_logo);
+
+      let product_desc = document.createElement("DIV");
+      product_desc.innerHTML += desc;
+      product_desc.style.cssText = "font-family: LucidaGrande; border-radius:0%; border:none; outline:none; font-size:20px; color:product_color; background-color:transparent; position:absolute; top:130px; left:0px;".replace("product_font", font).replace("product_color", color)
+      product_desc.style.height = "70px";
+      product_desc.style.left = "40px";
+      product_desc.style.width = "600px";
+      panel.appendChild(product_desc);
+
+      let try_button = document.createElement("BUTTON");
+      try_button.innerHTML += "Try in browser >";
+      try_button.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid; font-size:14px; color:product_color; background-color:transparent; position:absolute; top:230px; left:0px;".replace("product_font", font).replace("product_color", color)
+      try_button.style.borderColor = color;
+      try_button.style.height = "30px";
+      try_button.style.left = "40px";
+      try_button.style.width = "140px";
+
+      try_button.onclick = function() {
+        window.location.href = "./playtest.html";
+      }
+      panel.appendChild(try_button);
+
+      let info_button = document.createElement("BUTTON");
+      info_button.innerHTML += "More >";
+      info_button.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid; font-size:14px; color:product_color; background-color:transparent; position:absolute; top:230px; left:0px;".replace("product_font", font).replace("product_color", color)
+      info_button.style.borderColor = color;
+      info_button.style.height = "30px";
+      info_button.style.left = "190px";
+      info_button.style.width = "120px";
+      panel.appendChild(info_button);
+
+      var png = document.createElement('img');
+      png.src = img;
+
+      console.log(img);
+
+
+      png.style.height = panel.style.height;
+      png.style.width = "auto";
+      png.style.top = "0px";
+      png.style.right = "0px";
+      png.style.position = "absolute";
+      panel.appendChild(png);
+
+      //let text = document.createElement("DIV");
+      //panel.appendChild(text);
+
+      document.body.appendChild(panel);
     }
-  
-   }
-   loadPackage({"files": [{"filename": "/resources/fonts/Trattatello.ttf", "start": 0, "end": 1160004}, {"filename": "/resources/fonts/Roboto-Regular.ttf", "start": 1160004, "end": 1305352}, {"filename": "/resources/fonts/LucidaGrande.ttf", "start": 1305352, "end": 1561708}], "remote_package_size": 1561708, "package_uuid": "00265aab-6ffd-4bae-87a3-7bc1208837e3"});
-  
-  })();
-  
+}
+
+main();
