@@ -64,7 +64,7 @@ label  { color:#bbb; font-size:12px; }
 select { background:#222; color:#eee; height:20px; margin-top:10px; cursor:pointer; }
 img { pointer-events: none; } /*stops dragging imgs */
 
-.pluginArea { margin-right: auto; margin-left: auto; margin-right: auto; display: block; outline:0; }
+.pluginArea { margin-top:0px; margin-right: auto; margin-left: auto; margin-right: auto; display: block; outline:0; }
 div.pluginArea { text-align: center; }
 /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
 canvas.pluginArea { border: 0px none; background-color: rgba(0, 0, 0, 0); display: block; box-shadow: 10px 10px 5px rgba(0,0,0,0.3); }
