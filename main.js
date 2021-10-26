@@ -127,6 +127,11 @@ function main() {
        iframe.height = "290px";
        panel.appendChild(iframe);
 
+       iframe.onload = function () {
+         iframe.contentWindow.scrollTo(200, 0);
+       }
+
+
        panel.removeChild(info_button);
        panel.removeChild(try_button);
        panel.removeChild(product_desc);
