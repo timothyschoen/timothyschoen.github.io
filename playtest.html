@@ -15,10 +15,11 @@
   <body>
     <div id="main"></div>
       <div id="buttons">
-        <button type="button" id="startWebAudioButton" onclick="startWebAudio()" disabled>Start web audio!</button>
+        <script type="text/javascript"> "startWebAudio();" </script>
+        <!--<button type="button" id="startWebAudioButton" onclick="" disabled>Start web audio!</button>
         <button type="button" id="fullScreenButton" onclick="toggleFullScreen()">Fullscreen</button>
         <select id="midiInSelect" disabled="true"><option value="default">Midi input</option></select>
-        <select id="midiOutSelect" disabled="true"><option value="default">Midi output</option></select>
+        <select id="midiOutSelect" disabled="true"><option value="default">Midi output</option></select>-->
         <progress value="0" max="100" id="progress"></progress>
       </div>
       <div id="greyout">
@@ -30,7 +31,7 @@
       </div>
     <script type='text/javascript'>
       var GreenLight_web_WAM; // the WAM controller
-      let WEBSOCKET_MODE=false; // this constant will be set by the makedist-web.sh script 
+      let WEBSOCKET_MODE=false; // this constant will be set by the makedist-web.sh script
 
       if(WEBSOCKET_MODE==true) {
         document.getElementById('buttons').style.display = 'none';
@@ -100,7 +101,7 @@
       function initMidiComboBox (isOutput, element) {
         let combo = document.querySelector(element);
         combo.options.length = 0;
-        
+
         if (navigator.requestMIDIAccess) {
           navigator.requestMIDIAccess().then((midiIF) => {
             if(isOutput) {
@@ -154,7 +155,7 @@
       function startWebAudio() {
         var actx = new AudioContext();
         safariUnlock(actx);
-        
+
         AWPF.polyfill(actx).then( function () {
           var script1 = document.createElement("script");
           script1.src = "scripts/wam-controller.js";
@@ -167,10 +168,10 @@
                 console.log("AudioWorklet NOT Supported");
               else
                 console.log("AudioWorklet Supported");
-              
+
               let inputBuses = [2];
               let outputBuses = [2];
-              let options = {numberOfInputs: inputBuses.length, inputChannelCount: inputBuses, 
+              let options = {numberOfInputs: inputBuses.length, inputChannelCount: inputBuses,
                              numberOfOutputs: outputBuses.length, outputChannelCount: outputBuses,
                              processorOptions: {inputChannelCount: inputBuses}};
 
@@ -180,7 +181,7 @@
                 if(GreenLight_web_WAM !== undefined) {
 
                   let NInputs = AWPF.isAudioWorkletPolyfilled ? GreenLight_web_WAM.input.numberOfInputs : GreenLight_web_WAM.numberOfInputs;
-                  
+
                   if(NInputs > 0) {
                     var constraints = { audio: true, video:false }
                     navigator.mediaDevices.getUserMedia(constraints)
@@ -200,7 +201,7 @@
                       console.log('Error initializing user media stream: ' + err);
                     });
                   }
-                  else 
+                  else
                   {
                     GreenLight_web_WAM.connect(actx.destination); // connect WAM output to speakers
                     connectionsDone();
@@ -222,7 +223,7 @@
         let propArg = String(msgTag + ":" + ctrlTag);
         GreenLight_web_WAM.port.postMessage({ "type": "msg", "verb": "SAMFUI", "prop": propArg, "data": data });
       }
-      
+
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
 
@@ -232,7 +233,7 @@
           document.getElementById('startWebAudioButton').removeAttribute("disabled");
         },
         onRuntimeInitialized: function() {
-          
+
           if(WEBSOCKET_MODE==true) {
             setupWebSocket(function() {
               document.getElementById('wam').hidden = false;

@@ -1,12 +1,13 @@
 
 
 document.body.style.backgroundColor = "#141414";
-document.body.style.width = '70%';
-document.body.style.height= '100%';
+document.body.style.width = "70%";
+document.body.style.height= "100%";
 
 let buttons = [];
-let labels = ["HOME", "PRODUCTS", "ABOUT", "CONTACT"];
+let labels = ["HOME", "ABOUT", "CONTACT"];
 
+let trial_desc = "Try the plugin out in your browser, use Chrome for best results. Saving and deleting presets is disabled."
 
 let products = [["GreenLight", "./greenlight.png", "Trattatello", "#3cbe79", "Dynamic phaser and flanger with a unique sound"]];
 
@@ -30,7 +31,7 @@ function main() {
     line.style.width = "x0px".replace("x0", width);
     content.appendChild(line);
 
-    var logo = document.createElement('img');
+    var logo = document.createElement("img");
     logo.src = "./Octagon_extra.png";
 
     logo.style.width = "130px";
@@ -68,6 +69,18 @@ function main() {
       panel.style.width = "x0px".replace("x0", width);
 
 
+      var png = document.createElement("img");
+      png.src = img;
+
+      console.log(img);
+
+      png.style.height = "280px";
+      png.style.width = "auto";
+      png.style.top = "10px";
+      png.style.right = "10px";
+      png.style.position = "absolute";
+      panel.appendChild(png);
+
       let product_logo = document.createElement("DIV");
       product_logo.innerHTML += name;
       product_logo.style.cssText = "font-family: Trattatello; border-radius:0%; border:none; outline:none; font-size:60px; color:product_color; background-color:transparent; position:absolute; top:20px; left:0px;".replace("product_font", font).replace("product_color", color)
@@ -84,6 +97,16 @@ function main() {
       product_desc.style.width = "600px";
       panel.appendChild(product_desc);
 
+      let info_button = document.createElement("BUTTON");
+      info_button.innerHTML += "More >";
+      info_button.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid; font-size:14px; color:product_color; background-color:transparent; position:absolute; top:230px; left:0px;".replace("product_font", font).replace("product_color", color)
+      info_button.style.borderColor = color;
+      info_button.style.height = "30px";
+      info_button.style.left = "190px";
+      info_button.style.width = "120px";
+      panel.appendChild(info_button);
+
+
       let try_button = document.createElement("BUTTON");
       try_button.innerHTML += "Try in browser >";
       try_button.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid; font-size:14px; color:product_color; background-color:transparent; position:absolute; top:230px; left:0px;".replace("product_font", font).replace("product_color", color)
@@ -94,34 +117,52 @@ function main() {
 
       try_button.onclick = function() {
 
-        var ifrm = document.createElement("iframe");
-       ifrm.setAttribute("src", "./playtest.html");
-       ifrm.style.width = "640px";
-       ifrm.style.height = "480px";
-       document.body.appendChild(ifrm);
+       var iframe = document.createElement("iframe");
+       iframe.setAttribute("src", "./playtest.html");
+       iframe.style.position = "absolute";
+       iframe.style.bottom="1%"
+       iframe.style.right="1%"
+       iframe.style.border = "none";
+       iframe.width = "460px";
+       iframe.height = "290px";
+       panel.appendChild(iframe);
+
+       panel.removeChild(info_button);
+       panel.removeChild(try_button);
+       panel.removeChild(product_desc);
+       panel.removeChild(png);
+
+       let trial_description = document.createElement("DIV");
+       trial_description.innerHTML += trial_desc;
+       trial_description.style.cssText = "font-family: LucidaGrande; border-radius:0%; border:none; outline:none; font-size:15px; color:product_color; background-color:transparent; position:absolute; top:130px; left:0px;".replace("product_font", font).replace("product_color", color)
+       trial_description.style.height = "70px";
+       trial_description.style.left = "40px";
+       trial_description.style.width = "400px";
+       panel.appendChild(trial_description);
+
+
+       var close = document.createElement("BUTTON");
+       close.innerHTML = "x";
+       close.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid; font-size:14px; color:product_color; background-color:transparent; position:absolute; top:10px; left:0px;".replace("product_font", font).replace("product_color", color)
+       close.style.borderColor = color;
+       close.style.height = "30px";
+       close.style.left = "10px";
+       close.style.width = "30px";
+       close.onclick = function() {
+         panel.removeChild(close);
+         panel.removeChild(iframe);
+         panel.removeChild(trial_description);
+
+         panel.appendChild(info_button);
+         panel.appendChild(try_button);
+         panel.appendChild(product_desc);
+         panel.appendChild(png);
+       }
+
+       panel.appendChild(close);
       }
       panel.appendChild(try_button);
 
-      let info_button = document.createElement("BUTTON");
-      info_button.innerHTML += "More >";
-      info_button.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid; font-size:14px; color:product_color; background-color:transparent; position:absolute; top:230px; left:0px;".replace("product_font", font).replace("product_color", color)
-      info_button.style.borderColor = color;
-      info_button.style.height = "30px";
-      info_button.style.left = "190px";
-      info_button.style.width = "120px";
-      panel.appendChild(info_button);
-
-      var png = document.createElement('img');
-      png.src = img;
-
-      console.log(img);
-
-      png.style.height = "280px";
-      png.style.width = "auto";
-      png.style.top = "10px";
-      png.style.right = "10px";
-      png.style.position = "absolute";
-      panel.appendChild(png);
 
       //let text = document.createElement("DIV");
       //panel.appendChild(text);
