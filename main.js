@@ -128,7 +128,7 @@ function main() {
        panel.appendChild(iframe);
 
        iframe.onload = function () {
-         iframe.contentWindow.scrollTo(200, 0);
+         iframe.contentWindow.scrollTo(1200, 0);
        }
 
 
