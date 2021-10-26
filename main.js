@@ -124,7 +124,7 @@ function main() {
        iframe.style.right="1%"
        iframe.style.border = "none";
        iframe.width = "460px";
-       iframe.height = "290px";
+       iframe.height = "390px";
        panel.appendChild(iframe);
 
        iframe.onload = function () {
