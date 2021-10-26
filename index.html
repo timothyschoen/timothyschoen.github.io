@@ -1,292 +1,280 @@
-<!doctype html>
-<html lang="en">
+<html>
   <head>
-    <title>Me &mdash; Website Template by Colorlib</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css?family=Arbutus+Slab|Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/jquery-ui.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-
-    <link rel="stylesheet" href="css/jquery.fancybox.min.css">
-
-    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
-
-    <link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
-
-    <link rel="stylesheet" href="css/aos.css">
-
-    <link rel="stylesheet" href="css/style.css">
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>GreenLight_web WAM</title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css"/>
+    <script src="scripts/audioworklet.js"></script>
+    <!--<script src="scripts/websocket.js"></script>-->
+    <script async src="fonts.js"></script>
+    <!--<script async src="svgs.js"></script>-->
+    <!--<script async src="imgs.js"></script>-->
+    <!--<script async src="imgs@2x.js"></script>-->
+    <script async src="scripts/GreenLight_web-web.js"></script>
   </head>
-  <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
-
-
-
-  <div class="site-wrap">
-
-    <div class="site-mobile-menu site-navbar-target">
-      <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-          <span class="icon-close2 js-menu-toggle"></span>
-        </div>
+  <body>
+    <div id="main"></div>
+      <div id="buttons">
+        <button type="button" id="startWebAudioButton" onclick="startWebAudio()" disabled>Start web audio!</button>
+        <button type="button" id="fullScreenButton" onclick="toggleFullScreen()">Fullscreen</button>
+        <select id="midiInSelect" disabled="true"><option value="default">Midi input</option></select>
+        <select id="midiOutSelect" disabled="true"><option value="default">Midi output</option></select>
+        <progress value="0" max="100" id="progress"></progress>
       </div>
-      <div class="site-mobile-menu-body"></div>
-    </div>
-
-    <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
-
-      <div class="container-fluid">
-        <div class="row align-items-center justify-content-center">
-
-          <div class="">
-            <nav class="site-navigation position-relative text-right" role="navigation">
-              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li><a href="#about-section" class="nav-link">About</a></li>
-
-              </ul>
-            </nav>
-          </div>
-
-          <div class="text-left">
-
-            <nav class="site-navigation position-relative" role="navigation">
-              <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                <li><a href="#portfolio-section" class="nav-link">Portfolio</a></li>
-                <li><a href="#contact-section" class="nav-link">Contact</a></li>
-              </ul>
-            </nav>
-
-
-            <div class="d-inline-block d-lg-none" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a></div>
-
-          </div>
-
-        </div>
+      <div id="greyout">
+        <div id="status">downloading...</div>
       </div>
-
-    </header>
-
-
-    </div>
-
-    <div class="site-section" id="about-section">
-      <div class="container">
-        <div class="row ">
-          <div class="col-12 mb-4 position-relative">
-            <h2 class="section-title">About Me</h2>
-          </div>
-          <div class="col-lg-4 order-1 order-lg-2 mb-4 mb-lg-0">
-            <div class="bg-white pt-5">
-            <img src="images/face.jpeg" alt="Image" class="img-thumbnail" width="70%">
-            </div>
-          </div>
-          <div class="col-lg-4 order-2 order-lg-1">
-            <p>I am a creative coder, who specializes in audio programming, DSP and analog simulation. I also do algorithmic composition work.</p>
-            <p>I am currently studying Music and Technology at the University of the Arts in Utrecht, the Netherlands.</p>
-          </div>
-          <div class="col-lg-4 order-3 order-lg-3">
-            <p></p>
-            <p>Do not hesistate to contact me if you have any questions. I'll always reply!</p>
-            <p><a href="#contact-section" class="btn smoothscroll btn-primary">Contact Me</a></p>
-          </div>
-
-        </div>
+      <div id="wam" hidden=true>
+        <!-- <div id="wamheader">GreenLight_web WAM</div> -->
+        <canvas class="pluginArea" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
       </div>
-    </div>
+    <script type='text/javascript'>
+      var GreenLight_web_WAM; // the WAM controller
+      let WEBSOCKET_MODE=false; // this constant will be set by the makedist-web.sh script 
 
+      if(WEBSOCKET_MODE==true) {
+        document.getElementById('buttons').style.display = 'none';
+      }
 
+      document.addEventListener("keydown", function(e) { if(e.keyCode == 9) {e.preventDefault(); }});
+      document.addEventListener("touchmove", function(e) { e.preventDefault(); }, {passive: false});
 
+      // drag WAM element, from https://www.w3schools.com/howto/howto_js_draggable.asp
+      // dragElement(document.getElementById("wam"));
 
-    <section class="site-section block__62272" id="portfolio-section">
+      // function dragElement(elmnt) {
+      //   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+      //   if (document.getElementById(elmnt.id + "header")) {
+      //     document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+      //   } else {
+      //     elmnt.onmousedown = dragMouseDown;
+      //   }
 
+      //   function dragMouseDown(e) {
+      //     e = e || window.event;
+      //     e.preventDefault();
+      //     pos3 = e.clientX;
+      //     pos4 = e.clientY;
+      //     document.onmouseup = closeDragElement;
+      //     document.onmousemove = elementDrag;
+      //   }
 
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-12 position-relative">
-            <h2 class="section-title text-center mb-5">My Portfolio</h2>
-          </div>
-        </div>
+      //   function elementDrag(e) {
+      //     e = e || window.event;
+      //     e.preventDefault();
+      //     pos1 = pos3 - e.clientX;
+      //     pos2 = pos4 - e.clientY;
+      //     pos3 = e.clientX;
+      //     pos4 = e.clientY;
+      //     elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      //     elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+      //   }
 
+      //   function closeDragElement() {
+      //     document.onmouseup = null;
+      //     document.onmousemove = null;
+      //   }
+      // }
 
-        <div id="posts" class="row no-gutter">
-          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_2.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_2.png">
-            </a>
-          </div>
-          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_3.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_3.png">
-            </a>
-          </div>
+      function toggleFullScreen() {
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+        (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        } else {
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          }
+        }
+      }
 
-          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_4.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_4.png">
-            </a>
-          </div>
+      function initMidiComboBox (isOutput, element) {
+        let combo = document.querySelector(element);
+        combo.options.length = 0;
+        
+        if (navigator.requestMIDIAccess) {
+          navigator.requestMIDIAccess().then((midiIF) => {
+            if(isOutput) {
+              for (let output of midiIF.outputs.values()) {
+                let option = new Option(output.name);
+                option.port = output;
+                combo.appendChild(option);
+              }
 
-          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
+              combo.onchange = e => {
+                GreenLight_web_WAM.midiOut = e.target.options[e.target.selectedIndex].port;
+              }
+            } else {
+              for (let input of midiIF.inputs.values()) {
+                let option = new Option(input.name);
+                option.port = input;
+                combo.appendChild(option);
+              }
 
-            <a href="images/post_5.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_5.png">
-            </a>
+              combo.onchange = e => {
+                GreenLight_web_WAM.midiIn = e.target.options[e.target.selectedIndex].port;
+              }
+            }
 
-          </div>
+            if (combo.options.length > 0)
+              combo.onchange({ target:combo });
+          })
+          combo.removeAttribute("disabled");
+        }
+      }
 
-          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_6.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_6.png">
-            </a>
-          </div>
+      //https://www.mattmontag.com/web/unlock-web-audio-in-safari-for-ios-and-macos
+      function safariUnlock(audioCtx) {
+        if (audioCtx.state !== 'suspended') return;
+        const b = document.body;
+        const events = ['touchstart','touchend', 'mousedown','keydown'];
+        events.forEach(e => b.addEventListener(e, unlock, false));
+        function unlock() { audioCtx.resume().then(clean); }
+        function clean() { events.forEach(e => b.removeEventListener(e, unlock)); }
+      }
 
-          <div class="item brand col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_7.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_7.png">
-            </a>
-          </div>
+      function connectionsDone() {
+        document.getElementById("wam").style.left = ((window.innerWidth/2) - (parseInt(document.getElementById("canvas").style.width) / 2)) + "px";
+        document.getElementById("wam").style.top = ((window.innerHeight/2) - (parseInt(document.getElementById("canvas").style.height) / 2)) + "px";
+        document.getElementById('wam').hidden = false;
+        document.getElementById('startWebAudioButton').setAttribute("disabled", "true");
+        initMidiComboBox(false, "#midiInSelect");
+        initMidiComboBox(true, "#midiOutSelect");
+      }
 
-          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_8.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_8.png">
-            </a>
-          </div>
+      function startWebAudio() {
+        var actx = new AudioContext();
+        safariUnlock(actx);
+        
+        AWPF.polyfill(actx).then( function () {
+          var script1 = document.createElement("script");
+          script1.src = "scripts/wam-controller.js";
+          script1.onload = () => {
+            var script2 = document.createElement("script");
+            script2.src = "scripts/GreenLight_web-awn.js";
+            script2.onload = () => {
 
-          <div class="item design col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_9.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_9.png">
-            </a>
-          </div>
+              if(AWPF.isAudioWorkletPolyfilled)
+                console.log("AudioWorklet NOT Supported");
+              else
+                console.log("AudioWorklet Supported");
+              
+              let inputBuses = [2];
+              let outputBuses = [2];
+              let options = {numberOfInputs: inputBuses.length, inputChannelCount: inputBuses, 
+                             numberOfOutputs: outputBuses.length, outputChannelCount: outputBuses,
+                             processorOptions: {inputChannelCount: inputBuses}};
 
-          <div class="item web col-6 col-sm-6 col-md-6 col-lg-4 col-xl-4 mb-4">
-            <a href="images/post_2.png" class="item-wrap fancybox">
-              <span class="icon-search2"></span>
-              <img class="img-fluid" src="images/post_2.png">
-            </a>
-          </div>
+              GreenLight_webController.importScripts(actx).then(() => {
+                GreenLight_web_WAM = new GreenLight_webController(actx, options);
 
+                if(GreenLight_web_WAM !== undefined) {
 
-        </div>
-      </div>
+                  let NInputs = AWPF.isAudioWorkletPolyfilled ? GreenLight_web_WAM.input.numberOfInputs : GreenLight_web_WAM.numberOfInputs;
+                  
+                  if(NInputs > 0) {
+                    var constraints = { audio: true, video:false }
+                    navigator.mediaDevices.getUserMedia(constraints)
+                    .then((stream) => {
+                      let audioSource = actx.createMediaStreamSource(stream);
 
-    </section>
+                      // connect audioSource to WAM inputs
+                      if(AWPF.isAudioWorkletPolyfilled)
+                        audioSource.connect(GreenLight_web_WAM.input)
+                      else
+                        audioSource.connect(GreenLight_web_WAM);
 
-    <section class="site-section" id="contact-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-12 mb-5 position-relative">
-            <h2 class="section-title text-center mb-5">Contact Form</h2>
-          </div>
-        </div>
-        <form action="#" class="form">
-          <div class="row mb-4">
-            <div class="form-group col-6">
-              <input type="text" class="form-control" placeholder="First name">
-            </div>
-            <div class="form-group col-6">
-              <input type="text" class="form-control" placeholder="Last name">
-            </div>
-          </div>
+                      GreenLight_web_WAM.connect(actx.destination); // connect WAM output to speakers
+                      connectionsDone();
+                    })
+                    .catch((err) => {
+                      console.log('Error initializing user media stream: ' + err);
+                    });
+                  }
+                  else 
+                  {
+                    GreenLight_web_WAM.connect(actx.destination); // connect WAM output to speakers
+                    connectionsDone();
+                  }
+                }
+                else {
+                  console.log('GreenLight_web_WAM is undefined');
+                }
+              });
+            }
+            document.head.appendChild(script2);
+          }
+          document.head.appendChild(script1);
+        });
+      }
 
-          <div class="row mb-4">
-            <div class="form-group col-12">
-              <input type="email" class="form-control" placeholder="Email address">
-            </div>
-          </div>
+      // helper method for sending an "arbitary" message to the processor, which can be handled in OnMessage()
+      function SendMessageToWAM(msgTag, ctrlTag = -1, data = 0) {
+        let propArg = String(msgTag + ":" + ctrlTag);
+        GreenLight_web_WAM.port.postMessage({ "type": "msg", "verb": "SAMFUI", "prop": propArg, "data": data });
+      }
+      
+      var statusElement = document.getElementById('status');
+      var progressElement = document.getElementById('progress');
 
-          <div class="row mb-4">
-            <div class="form-group col-12">
-              <input type="text" class="form-control" placeholder="Subject of the message">
-            </div>
-          </div>
-
-          <div class="row mb-4">
-            <div class="form-group col-12">
-              <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Type your message here.."></textarea>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <input type="submit" class="btn btn-primary" value="Send Message">
-            </div>
-          </div>
-
-        </form>
-      </div>
-    </section>
-
-    <footer class="site-section bg-light footer">
-      <div class="container">
-        <div class="row mb-5">
-          <div class="col-md-3">
-            <h3 class="footer-title">Me Address</h3>
-            <p><span class="d-inline-block d-md-block">203 Fake St. Mountain View,</span> San Francisco, California, USA</p>
-          </div>
-          <div class="col-md-5 mx-auto">
-            <div class="row">
-              <div class="col-lg-4">
-                <h3 class="footer-title">Links</h3>
-                <ul class="list-unstyled">
-                  <li><a href="#">Web App</a></li>
-                  <li><a href="#">Graphic</a></li>
-                  <li><a href="#">Branding</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <h3 class="footer-title">Follow Me</h3>
-            <a href="#" class="social-circle"><span class="icon-twitter"></span></a>
-            <a href="#" class="social-circle"><span class="icon-facebook"></span></a>
-            <a href="#" class="social-circle"><span class="icon-instagram"></span></a>
-            <a href="#" class="social-circle"><span class="icon-dribbble"></span></a>
-            <a href="#" class="social-circle"><span class="icon-linkedin"></span></a>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12 text-center">
-          <p>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
-            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
-            </div>
-        </div>
-      </div>
-    </footer>
-
-  </div> <!-- .site-wrap -->
-
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.easing.1.3.js"></script>
-  <script src="js/aos.js"></script>
-  <script src="js/jquery.fancybox.min.js"></script>
-  <script src="js/jquery.sticky.js"></script>
-  <script src="js/isotope.pkgd.min.js"></script>
-
-
-  <script src="js/main.js"></script>
-
+      var Module = {
+        preRun: [],
+        postRun: function() {
+          document.getElementById('startWebAudioButton').removeAttribute("disabled");
+        },
+        onRuntimeInitialized: function() {
+          
+          if(WEBSOCKET_MODE==true) {
+            setupWebSocket(function() {
+              document.getElementById('wam').hidden = false;
+            });
+          }
+        },
+        setStatus: function(text) {
+          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+          if (text === Module.setStatus.text) return;
+          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          var now = Date.now();
+          if (m && now - Date.now() < 30) return; // if this is a progress update, skip it if too soon
+          if (m) {
+            text = m[1];
+            progressElement.value = parseInt(m[2])*100;
+            progressElement.max = parseInt(m[4])*100;
+            progressElement.hidden = false;
+          } else {
+            progressElement.value = null;
+            progressElement.max = null;
+            progressElement.hidden = true;
+          }
+          statusElement.innerHTML = text;
+        },
+        canvas: (function() {
+          var canvas = document.getElementById('canvas');
+          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+          return canvas;
+        })(),
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function(event) {
+        Module.setStatus('Exception thrown, see JavaScript console');
+        Module.setStatus = function(text) {
+          if (text) Module.printErr('[post-exception status] ' + text);
+        };
+      };
+    </script>
   </body>
 </html>
