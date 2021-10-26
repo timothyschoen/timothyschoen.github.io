@@ -1,6 +1,6 @@
 
 
-document.body.style.backgroundColor = "#171717";
+document.body.style.backgroundColor = "#141414";
 document.body.style.width = '70%';
 document.body.style.height= '100%';
 
@@ -17,18 +17,18 @@ function main() {
     let width =  document.body.clientWidth - (2 * (document.body.clientWidth / divisor));
 
     let content = document.createElement("DIV");
-    content.style.cssText = "border-radius:0%; border:none; outline:none; background-color:#171717;";
+    content.style.cssText = "border-radius:0%; border:none; outline:none; background-color:#141414;";
     content.style.position = "fixed";
     content.style.left = "x0px".replace("x0", left);
     content.style.width = "x0px".replace("x0", width);
     content.style.height = document.body.clientHeight;
     document.body.appendChild(content);
 
-    let panel = document.createElement("DIV");
-    panel.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#f0f0f0; position:absolute; top:55px; left:0px;";
-    panel.style.height = "2px";
-    panel.style.width = "x0px".replace("x0", width);
-    content.appendChild(panel);
+    let line = document.createElement("DIV");
+    line.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#f0f0f0; position:absolute; top:55px; left:0px;";
+    line.style.height = "2px";
+    line.style.width = "x0px".replace("x0", width);
+    content.appendChild(line);
 
     var logo = document.createElement('img');
     logo.src = "./Octagon_extra.png";
@@ -62,10 +62,11 @@ function main() {
       let desc = products[i][4];
 
       let panel = document.createElement("DIV");
-      panel.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#141414; position:absolute; top:100px; left:0px;";
+      panel.style.cssText = "border-radius:5px; border:2px solid product_color; outline:none; font-size:12px; color:white; background-color:#141414; position:absolute; top:100px; left:0px;".replace("product_color", color);
       panel.style.height = "300px";
       panel.style.left = "x0px".replace("x0", left);
       panel.style.width = "x0px".replace("x0", width);
+
 
       let product_logo = document.createElement("DIV");
       product_logo.innerHTML += name;
@@ -92,7 +93,12 @@ function main() {
       try_button.style.width = "140px";
 
       try_button.onclick = function() {
-        window.location.href = "./playtest.html";
+
+        var ifrm = document.createElement("iframe");
+       ifrm.setAttribute("src", "./playtest.html");
+       ifrm.style.width = "640px";
+       ifrm.style.height = "480px";
+       document.body.appendChild(ifrm);
       }
       panel.appendChild(try_button);
 
@@ -110,11 +116,10 @@ function main() {
 
       console.log(img);
 
-
-      png.style.height = panel.style.height;
+      png.style.height = "280px";
       png.style.width = "auto";
-      png.style.top = "0px";
-      png.style.right = "0px";
+      png.style.top = "10px";
+      png.style.right = "10px";
       png.style.position = "absolute";
       panel.appendChild(png);
 
