@@ -2,7 +2,7 @@ body {
   font-family: arial;
   margin: 0;
   padding: none;
-  background: white;
+  background: "#141414";
   background-size: cover;
   text-align: center;
   overflow: hidden;
@@ -29,7 +29,7 @@ body {
 #status {
   display: inline-block;
   vertical-align: top;
-  margin-top: 50px;
+  margin-top: 10px;
   margin-left: 20px;
   font-weight: bold;
   color: black;
@@ -48,13 +48,27 @@ body {
 }
 
 #wamheader {
-  padding: 2px;
+  padding: 0px;
   cursor: move;
   z-index: 10;
   background-color: rgb(0, 86, 167);
   color: #fff;
 }
 
+.button {
+  position: fixed;
+  top: 40%;
+  right: 30%;
+  border-radius: 5px;
+  background-color: #141414; /* Green */
+  border: 2px solid #3cbe79;
+  color: #3cbe79;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
 a, u { text-decoration: none; }
 a:link { color: #222; }
 a:visited { color: #222; }
@@ -64,10 +78,10 @@ label  { color:#bbb; font-size:12px; }
 select { background:#222; color:#eee; height:20px; margin-top:10px; cursor:pointer; }
 img { pointer-events: none; } /*stops dragging imgs */
 
-.pluginArea { top:0px; margin-right: auto; margin-left: auto; margin-right: auto; display: block; outline:0; }
+.pluginArea { position:fixed; top:0px;}
 div.pluginArea { text-align: center; }
 /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
-canvas.pluginArea { border: 0px none; background-color: rgba(0, 0, 0, 0); display: block;}
+canvas.pluginArea { border: 0px none; background-color: rgba(0, 0, 0, 0);}
 .pluginInput { visibility:hidden }
 
 * { -webkit-tap-highlight-color:rgba(0,0,0,0); }

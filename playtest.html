@@ -15,7 +15,7 @@
   <body>
     <div id="main"></div>
       <div id="buttons">
-        <button type="button" id="startWebAudioButton" onclick="startWebAudio()" disabled>Start web audio!</button>
+        <button type="button" id="startWebAudioButton" class="button" onclick="startWebAudio()" disabled>Allow audio</button>
         <!--<button type="button" id="fullScreenButton" onclick="toggleFullScreen()">Fullscreen</button>
         <select id="midiInSelect" disabled="true"><option value="default">Midi input</option></select>
         <select id="midiOutSelect" disabled="true"><option value="default">Midi output</option></select>-->
@@ -144,7 +144,9 @@
 
       function connectionsDone() {
         document.getElementById("wam").style.left = ((window.innerWidth/2) - (parseInt(document.getElementById("canvas").style.width) / 2)) + "px";
-        document.getElementById("wam").style.top = "0px";
+        document.getElementById("wam").style.position = "fixed";
+        document.getElementById("wam").style.top = "-50px";
+
         document.getElementById('wam').hidden = false;
         document.getElementById('startWebAudioButton').setAttribute("disabled", "true");
         document.getElementById('startWebAudioButton').setAttribute("hidden", "true");
