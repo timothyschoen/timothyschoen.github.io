@@ -3,15 +3,16 @@ let trial_desc = "Try the plugin out in your browser, use Chrome for best result
 
 let products = [
   ["GreenLight", "./resources/greenlight.png", "Trattatello", "#3cbe79", "Dynamic phaser and flanger with a unique sound", "GreenLight offers a phaser/flanger-like sound but created in a new and unique way. The phasing responds dynamically your playing, adding life to your sound. You can add delay to create a more chorus-like effect, or create frequency shifting effects."],
-  ["Product2", "", "Trattatello", "#e63b35", "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet"],
-  ["Product3", "", "Trattatello", "#58a5e8", "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet"],
+/*  ["Product2", "", "Trattatello", "#e63b35", "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet"],
+  ["Product3", "", "Trattatello", "#58a5e8", "Lorem ipsum dolor sit amet", "Lorem ipsum dolor sit amet"], */
 ];
+
 
 
 function main() {
 
 
-    document.body.style.height = ((products.length * 300) + 100) + "px";
+    //document.body.style.height = ((products.length * 300) + 450) + "px";
 
 
     for (let i = 0; i < products.length; i++) {
@@ -127,7 +128,7 @@ function main() {
          iframe.style.bottom="1%"
          iframe.style.right="2%"
          iframe.style.border = "none";
-         iframe.width = "660px";
+         iframe.width = "590px";
          iframe.height = "360px";
 
          panel.appendChild(iframe);
@@ -183,6 +184,29 @@ function main() {
 
       content.appendChild(panel);
     }
+
+    let panel = document.createElement("DIV");
+    panel.style.cssText = "border-radius:5px; border:2px solid white; outline:none; font-size:12px; color:white; background-color:#141414; position:relative; top:100px; left:-10px;";
+    panel.style.padding = "-20px";
+    panel.style.margin = "20px";
+    panel.style.height = "300px";
+    panel.style.width = "100%";
+    panel.style.zIndex = "1";
+    content.appendChild(panel);
+
+    let more_coming = document.createElement("DIV");
+    more_coming.innerHTML += "More coming soon!";
+    more_coming.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:none; outline:none; font-size:60px; color:white; background-color:transparent; position:absolute; top:120px; left:0px;";
+    more_coming.style.height = "62px";
+    more_coming.style.left = "0px";
+    more_coming.style.width = "100%";
+    more_coming.style.textAlign = "center";
+    panel.appendChild(more_coming);
+
+    let footer = document.createElement("DIV");
+    footer.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:none; outline:none; font-size:60px; color:white; background-color:transparent; position:relative; top:120px; left:0px;";
+    footer.style.height = "62px";
+    content.appendChild(footer);
 }
 
 main();

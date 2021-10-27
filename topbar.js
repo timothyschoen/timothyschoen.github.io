@@ -16,10 +16,12 @@ content.style.height = document.body.clientHeight;
 content.style.zIndex = "100";
 document.body.appendChild(content);
 
+
+
 function create_topbar() {
 
   let buttons = [];
-  let labels = [["HOME", "./index.html"], ["ABOUT", "./about.html"], ["CONTACT", "./contact.html"]];
+  let labels = [["HOME", "./index.html"], ["NEWS", ""], ["ABOUT", "./about.html"], ["CONTACT", "./contact.html"]];
 
       let topbar = document.createElement("DIV");
       topbar.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#141414; position:fixed; top:0px; left:0px;";
@@ -30,7 +32,7 @@ function create_topbar() {
       content.appendChild(topbar);
 
       let line = document.createElement("DIV");
-      line.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#f0f0f0; position:fixed; top:55px;";
+      line.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:white; position:fixed; top:55px;";
       line.style.height = "2px";
       line.style.zIndex = "100";
       line.style.left = left + "px";
@@ -49,7 +51,7 @@ function create_topbar() {
       content.appendChild(logo);
 
 
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < labels.length; i++) {
         buttons[i] = document.createElement("BUTTON");
         buttons[i].innerHTML = labels[i][0];
         buttons[i].style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:transparent; position:fixed;  top:2px; left:x0px;".replace("x0", left + 170 + (i * 80));
