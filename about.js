@@ -7,9 +7,7 @@ document.body.style.height= "100%";
 let buttons = [];
 let labels = [["HOME", "./index.html"], ["ABOUT", "./about.html"], ["CONTACT", "./contact.html"]];
 
-let trial_desc = "Try the plugin out in your browser, use Chrome for best results. Saving and deleting presets is disabled."
-
-let products = [["GreenLight", "./resources/greenlight.png", "Trattatello", "#3cbe79", "Dynamic phaser and flanger with a unique sound", "GreenLight offers a phaser/flanger-like sound but created in a new and unique way. The phasing responds dynamically your playing, adding life to your sound. You can add delay to create a more chorus-like effect, or create frequency shifting effects."]];
+let about_text = "I am Timothy Schoen, <br><br> I am a developer and music enthousiast, based in The Netherlands. I develop creative audio effects as Octagon Audio.<br><br>I currently work as a DSP developer for Golden Hearing, a company that strives to improve music perception and enjoyment for people with hearing aids.<br><br>I currently study Music and Technology at HKU (University of the Arts, Utrecht). In 2020, I had an internship with plugin developers AudioEase, creators of AltiVerb.<br><br>If you have an interest in any of these subjects, don't hesitate to contact me, I'll always reply!<br><br>";
 
 function about() {
 
@@ -54,8 +52,19 @@ function about() {
         location.href = labels[i][1];
       }
       //buttons[i].addEventListener("click", buttonpresets[i][2]);
-      content.appendChild(buttons[i])
+      content.appendChild(buttons[i]);
     }
+
+    let about_me = document.createElement("DIV");
+    about_me.innerHTML += about_text;
+    about_me.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:2px solid white; outline:none; font-size:14px; color:white; background-color:transparent; position:fixed; left:0px;";
+    about_me.style.height = "300px";
+    about_me.style.left = (left - 50) + "px";
+    about_me.style.top = "60px";
+    about_me.style.width = (width - 100) + "px";
+    about_me.style.padding = "50px";
+    about_me.style.margin = "50px";
+    document.body.appendChild(about_me);
 }
 
 about();

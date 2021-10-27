@@ -18,7 +18,8 @@ let products = [
 
 function main() {
 
-    document.body.style.height = "1200px";
+
+    document.body.style.height = ((products.length * 300) + 100) + "px";
 
     let divisor = document.body.clientWidth > 1200 ? 6.0 : 12.0;
     let left =  document.body.clientWidth / divisor;
