@@ -1,7 +1,7 @@
 
 document.body.style.backgroundColor = "#141414";
 
-let panel_css = "border-radius:5px; border:2px solid $theme_color; outline:none; font-size:12px; color:white; background-color:#141414; position:relative; top:100px; left:-10px; padding:-20px; margin:20px; height:300px; width:100%; zIndex:1;";
+let panel_css = "font-family: LucidaGrande; border-radius:5px; border:2px solid $theme_color; outline:none; font-size:12px; color:white; background-color:#141414; position:relative; top:100px; left:-10px; padding:-20px; margin:20px; height:300px; width:100%; zIndex:1;";
 
 let button_css = "font-family: LucidaGrande; border-radius:5px; border:2px solid $theme_color; font-size:14px; color:$theme_color; background-color:transparent; position:absolute; width:140px; height:30px; text-align:center;";
 
