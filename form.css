@@ -14,7 +14,6 @@ padding:0 50px 15px;
 margin-top:20px;
 box-shadow:0 0 15px;
 border-radius:6px;
-float:left
 }
 #main h1{
 margin-top:40px
@@ -23,7 +22,6 @@ hr{
 margin-top:-5px
 }
 label{
-float:left;
 font-size:16px;
 color:white;
 font-family:'LucidaGrande',sans-serif

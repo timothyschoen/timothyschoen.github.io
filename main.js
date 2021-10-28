@@ -152,9 +152,6 @@ function main() {
     more_coming.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:none; outline:none; font-size:60px; color:white; background-color:transparent; position:absolute; top:120px; left:0px; height:62px; width:100%; text-align:center";
     panel.appendChild(more_coming);
 
-    let footer = document.createElement("DIV");
-    footer.style.cssText = "font-family: LucidaGrande; border-radius:5px; border:none; outline:none; font-size:60px; color:white; background-color:transparent; position:relative; top:120px; left:0px; height:62px;";
-    content.appendChild(footer);
 }
 
 main();

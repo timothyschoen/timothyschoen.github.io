@@ -4,8 +4,8 @@ function contact() {
 	let container = document.createElement("DIV");
 	container.style.float = "right";
 	container.style.width = "40%";
-
-
+	container.style.height = "460px";
+	container.style.margin = "15px";
 	container.position = "relative";
 	content.appendChild(container);
 
