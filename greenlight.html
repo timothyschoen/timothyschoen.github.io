@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>GreenLight_web WAM</title>
+    <title>GreenLight WAM</title>
     <link href="styles/style.css" rel="stylesheet" type="text/css"/>
     <script src="scripts/audioworklet.js"></script>
     <!--<script src="scripts/websocket.js"></script>-->
@@ -10,7 +10,7 @@
     <!--<script async src="svgs.js"></script>-->
     <!--<script async src="imgs.js"></script>-->
     <!--<script async src="imgs@2x.js"></script>-->
-    <script async src="scripts/GreenLight_web-web.js"></script>
+    <script async src="scripts/GreenLight-web.js"></script>
   </head>
   <body>
     <div id="main"></div>
@@ -25,11 +25,11 @@
         <div id="status">downloading...</div>
       </div>
       <div id="wam" hidden=true>
-        <!-- <div id="wamheader">GreenLight_web WAM</div> -->
+        <!-- <div id="wamheader">GreenLight WAM</div> -->
         <canvas class="pluginArea" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
       </div>
     <script type='text/javascript'>
-      var GreenLight_web_WAM; // the WAM controller
+      var GreenLight_WAM; // the WAM controller
       let WEBSOCKET_MODE=false; // this constant will be set by the makedist-web.sh script
 
       if(WEBSOCKET_MODE==true) {
@@ -111,7 +111,7 @@
               }
 
               combo.onchange = e => {
-                GreenLight_web_WAM.midiOut = e.target.options[e.target.selectedIndex].port;
+                GreenLight_WAM.midiOut = e.target.options[e.target.selectedIndex].port;
               }
             } else {
               for (let input of midiIF.inputs.values()) {
@@ -121,7 +121,7 @@
               }
 
               combo.onchange = e => {
-                GreenLight_web_WAM.midiIn = e.target.options[e.target.selectedIndex].port;
+                GreenLight_WAM.midiIn = e.target.options[e.target.selectedIndex].port;
               }
             }
 
@@ -163,7 +163,7 @@
           script1.src = "scripts/wam-controller.js";
           script1.onload = () => {
             var script2 = document.createElement("script");
-            script2.src = "scripts/GreenLight_web-awn.js";
+            script2.src = "scripts/GreenLight-awn.js";
             script2.onload = () => {
 
               if(AWPF.isAudioWorkletPolyfilled)
@@ -177,12 +177,12 @@
                              numberOfOutputs: outputBuses.length, outputChannelCount: outputBuses,
                              processorOptions: {inputChannelCount: inputBuses}};
 
-              GreenLight_webController.importScripts(actx).then(() => {
-                GreenLight_web_WAM = new GreenLight_webController(actx, options);
+              GreenLightController.importScripts(actx).then(() => {
+                GreenLight_WAM = new GreenLightController(actx, options);
 
-                if(GreenLight_web_WAM !== undefined) {
+                if(GreenLight_WAM !== undefined) {
 
-                  let NInputs = AWPF.isAudioWorkletPolyfilled ? GreenLight_web_WAM.input.numberOfInputs : GreenLight_web_WAM.numberOfInputs;
+                  let NInputs = AWPF.isAudioWorkletPolyfilled ? GreenLight_WAM.input.numberOfInputs : GreenLight_WAM.numberOfInputs;
 
                   if(NInputs > 0) {
                     var constraints = { audio: true, video:false }
@@ -192,11 +192,11 @@
 
                       // connect audioSource to WAM inputs
                       if(AWPF.isAudioWorkletPolyfilled)
-                        audioSource.connect(GreenLight_web_WAM.input)
+                        audioSource.connect(GreenLight_WAM.input)
                       else
-                        audioSource.connect(GreenLight_web_WAM);
+                        audioSource.connect(GreenLight_WAM);
 
-                      GreenLight_web_WAM.connect(actx.destination); // connect WAM output to speakers
+                      GreenLight_WAM.connect(actx.destination); // connect WAM output to speakers
                       connectionsDone();
                     })
                     .catch((err) => {
@@ -205,12 +205,12 @@
                   }
                   else
                   {
-                    GreenLight_web_WAM.connect(actx.destination); // connect WAM output to speakers
+                    GreenLight_WAM.connect(actx.destination); // connect WAM output to speakers
                     connectionsDone();
                   }
                 }
                 else {
-                  console.log('GreenLight_web_WAM is undefined');
+                  console.log('GreenLight_WAM is undefined');
                 }
               });
             }
@@ -223,7 +223,7 @@
       // helper method for sending an "arbitary" message to the processor, which can be handled in OnMessage()
       function SendMessageToWAM(msgTag, ctrlTag = -1, data = 0) {
         let propArg = String(msgTag + ":" + ctrlTag);
-        GreenLight_web_WAM.port.postMessage({ "type": "msg", "verb": "SAMFUI", "prop": propArg, "data": data });
+        GreenLight_WAM.port.postMessage({ "type": "msg", "verb": "SAMFUI", "prop": propArg, "data": data });
       }
 
       var statusElement = document.getElementById('status');
