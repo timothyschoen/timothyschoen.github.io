@@ -1,5 +1,8 @@
 <?php
 if(isset($_POST["submit"])){
+
+ini_set( 'display_errors', 1 );
+error_reporting( E_ALL );
 // Checking For Blank Fields..
 if($_POST["vname"]==""||$_POST["vemail"]==""||$_POST["vmessage"]==""){
 echo "Fill All Fields..";
@@ -16,7 +19,6 @@ echo "Invalid Sender's Email";
 else{
 $message = $_POST['vmessage'];
 $headers = 'From:'. $email2 . "rn"; // Sender's Email
-$headers .= 'Cc:'. $email2 . "rn"; // Carbon copy to Sender
 // Message lines should not exceed 70 characters (PHP rule), so wrap it
 $message = wordwrap($message, 70);
 
