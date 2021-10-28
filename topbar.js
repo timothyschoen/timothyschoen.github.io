@@ -35,7 +35,7 @@ function create_topbar() {
       let line = document.createElement("DIV");
       line.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:white; position:relative;";
       line.style.height = "2px";
-	  line.style.top = "100%";
+	    line.style.top = "100%";
       line.style.zIndex = "100";
       line.style.width = "100%";
       topbar.appendChild(line);
@@ -52,7 +52,7 @@ function create_topbar() {
 			logo.onclick = function(){
 				location.href = "./index.html";
 			};
-			
+
       topbar.appendChild(logo);
 
 	   let logo_right = logo.getBoundingClientRect().right;
@@ -60,7 +60,7 @@ function create_topbar() {
       for (let i = 0; i < labels.length; i++) {
         buttons[i] = document.createElement("BUTTON");
         buttons[i].innerHTML = labels[i][0];
-        buttons[i].style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:transparent; position:relative;  top:10px; left:20%;"
+        buttons[i].style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:transparent; position:relative;  top:10px; left:10%;"
         buttons[i].className = "button";
         buttons[i].style.height = "42px";
         buttons[i].style.width = "80px";
