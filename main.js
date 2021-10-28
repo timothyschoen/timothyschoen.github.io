@@ -49,7 +49,7 @@ function OpenTrialWidget(url, panel, color, product_logo, to_hide) {
          trial_description.style.cssText = "font-family: LucidaGrande; border-radius:0%; border:none; outline:none; font-size:15px; color:$theme_color; background-color:transparent; position:absolute; top:130px; left:0px;".replace("$theme_color", color)
          trial_description.style.height = "70px";
          trial_description.style.left = "40px";
-         trial_description.style.width = "30%";
+         trial_description.style.width = "35%";
          panel.appendChild(trial_description);
 
          if((width - 660) < 100) {

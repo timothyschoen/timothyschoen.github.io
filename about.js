@@ -12,7 +12,7 @@ function about() {
     about_me.innerHTML += about_text;
     about_me.style.cssText = "font-family: LucidaGrande; outline:none; font-size:14px; color:white; background-color:transparent; position:relative; left:0px;";
     about_me.style.height = "300px";
-    about_me.style.left =  "30%";
+    about_me.style.left =  "20%";
     about_me.style.top = "30px";
     about_me.style.width = "70%"
     container.appendChild(about_me);
