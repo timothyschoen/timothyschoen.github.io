@@ -6,7 +6,7 @@ function contact() {
 	container.style.width = "40%";
 
 
-	container.position = "fixed";
+	container.position = "relative";
 	content.appendChild(container);
 
 	let contact_info = document.createElement("DIV");

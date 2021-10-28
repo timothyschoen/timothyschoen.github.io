@@ -7,6 +7,7 @@ function about() {
     container.style.padding = "50px";
     container.style.margin = "50px";
     container.style.cssText = panel_css.replaceAll("$theme_color", "white") + "height:300px; width:100%; top:100px;";
+    container.style.position = "relative";
 
     let about_me = document.createElement("DIV");
     about_me.innerHTML += about_text;
