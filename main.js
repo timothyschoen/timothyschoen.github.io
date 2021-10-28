@@ -41,7 +41,7 @@ function OpenTrialWidget(url, panel, color, product_logo, to_hide) {
 
 
          panel.style.height = "370px";
-		 to_hide.forEach(element => panel.removeChild(element));
+		     to_hide.forEach(element => panel.removeChild(element));
 
          let width = document.documentElement.clientWidth;
          let trial_description = document.createElement("DIV");
