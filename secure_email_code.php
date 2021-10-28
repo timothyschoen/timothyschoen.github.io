@@ -1,5 +1,5 @@
 <?php
-if(isset($_POST["submit"])){
+//if(isset($_POST["submit"])){
 // Checking For Blank Fields..
 if($_POST["vname"]==""||$_POST["vemail"]==""||$_POST["vmessage"]==""){
 echo "Fill All Fields..";
@@ -23,5 +23,5 @@ $message = wordwrap($message, 70);
 mail("timschoen123@gmail.com", "Contact Form", $message, $headers);
 echo "Your mail has been sent successfuly ! Thank you for your feedback";
 }
-}
+//}
 }
