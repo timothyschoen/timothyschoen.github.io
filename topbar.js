@@ -1,22 +1,23 @@
 
-let divisor = document.body.clientWidth > 1200 ? 8.0 : 24.0;
-let left =  document.body.clientWidth / divisor;
-let width =  document.body.clientWidth - (2 * (document.body.clientWidth / divisor));
-
 document.body.style.backgroundColor = "#141414";
-document.body.style.width = "70%";
-document.body.style.height= "100%";
+
+let panel_css = "border-radius:5px; border:2px solid $theme_color; outline:none; font-size:12px; color:white; background-color:#141414; position:relative; top:100px; left:-10px; padding:-20px; margin:20px; height:300px; width:100%; zIndex:1;";
+
+let button_css = "font-family: LucidaGrande; border-radius:5px; border:2px solid $theme_color; font-size:14px; color:$theme_color; background-color:transparent; position:absolute; width:140px; height:30px; text-align:center;";
+
 
 let content = document.createElement("DIV");
 content.style.cssText = "border-radius:0%; border:none; outline:none; background-color:#141414;";
 content.style.position = "absolute";
-content.style.left = "x0px".replace("x0", left);
-content.style.width = "x0px".replace("x0", width);
+content.style.left = "7%";
+content.style.width = (Math.max(document.body.clientWidth, 1100) * 0.86) + "px";
 content.style.height = document.body.clientHeight;
 content.style.zIndex = "100";
 document.body.appendChild(content);
 
-
+window.onresize = function() {
+	content.style.width = (Math.max(document.body.clientWidth, 1100) * 0.86) + "px";
+};
 
 function create_topbar() {
 
@@ -25,38 +26,39 @@ function create_topbar() {
 
       let topbar = document.createElement("DIV");
       topbar.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#141414; position:fixed; top:0px; left:0px;";
-      topbar.style.height = "55px";
-      topbar.style.left = left + "px";
-      topbar.style.width = "x0px".replace("x0", width + 30);
+      topbar.style.height = "65px";
+      topbar.style.left = "0%";
+      topbar.style.width = "100%"
       topbar.style.zIndex = "100";
       content.appendChild(topbar);
 
       let line = document.createElement("DIV");
-      line.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:white; position:fixed; top:55px;";
+      line.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:white; position:relative;";
       line.style.height = "2px";
+	  line.style.top = "100%";
       line.style.zIndex = "100";
-      line.style.left = left + "px";
-      line.style.width = "x0px".replace("x0", width + 30);
-      content.appendChild(line);
+      line.style.width = "100%";
+      topbar.appendChild(line);
 
       var logo = document.createElement("img");
-      logo.src = "./resources/Octagon_extra.png";
+      logo.src = "./resources/Octagon_extra_2.png";
 
       logo.style.width = "130px";
       logo.style.height = "auto";
-      logo.style.top = "0px";
-      logo.style.left = (left + 12) + "px";
+      logo.style.top = "5px";
+      logo.style.left = "8%"
       logo.style.position = "fixed";
       logo.style.zIndex = "100";
-      content.appendChild(logo);
+      topbar.appendChild(logo);
 
+	   let logo_right = logo.getBoundingClientRect().right;
 
       for (let i = 0; i < labels.length; i++) {
         buttons[i] = document.createElement("BUTTON");
         buttons[i].innerHTML = labels[i][0];
-        buttons[i].style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:transparent; position:fixed;  top:2px; left:x0px;".replace("x0", left + 170 + (i * 80));
+        buttons[i].style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:transparent; position:relative;  top:10px; left:20%;"
         buttons[i].className = "button";
-        buttons[i].style.height = "48px";
+        buttons[i].style.height = "42px";
         buttons[i].style.width = "80px";
         buttons[i].style.fontFamily = "LucidaGrande";
         buttons[i].style.zIndex = "100";
@@ -64,7 +66,7 @@ function create_topbar() {
           location.href = labels[i][1];
         }
         //buttons[i].addEventListener("click", buttonpresets[i][2]);
-        content.appendChild(buttons[i])
+        topbar.appendChild(buttons[i])
       }
 
 }

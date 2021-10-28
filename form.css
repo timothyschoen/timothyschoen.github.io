@@ -1,0 +1,74 @@
+containercontainercontainercontainerfont-family:'LucidaGrande',sans-serif/* Below line is write to use Google font online */
+@import "http://fonts.googleapis.com/css?family=Ubuntu";
+div#main{
+width:830px;
+height:650px;
+margin:0 auto;
+font-family:'LucidaGrande',sans-serif
+}
+div#form_sample{
+text-align:center;
+border:1px solid #ccc;
+width:300px;
+padding:0 50px 15px;
+margin-top:20px;
+box-shadow:0 0 15px;
+border-radius:6px;
+float:left
+}
+#main h1{
+margin-top:40px
+}
+hr{
+margin-top:-5px
+}
+label{
+float:left;
+font-size:16px;
+color:white;
+font-family:'LucidaGrande',sans-serif
+}
+input[type="text"]{
+width:100%;
+margin-top:10px;
+height:35px;
+margin-bottom:25px;
+padding:10px;
+background-color:#141414;
+border:2px solid white;
+border-radius: "5px";
+color:#fff;
+font-family:'LucidaGrande',sans-serif;
+}
+textarea{
+width:100%;
+background-color:#141414;
+border:2px solid white;
+border-radius: "5px";
+color:#fff;
+padding:10px;
+margin-bottom:25px;
+margin-top:10px;
+height:100px;
+resize:none;
+font-family:'LucidaGrande',sans-serif
+}
+input[type="submit"]{
+width:100%;
+padding:10px 45px;
+background-color:#141414;
+border:2px solid white;
+border-radius: "5px";
+color:#fff;
+font-size:18px;
+font-weight:700;
+cursor:pointer;
+font-family:'LucidaGrande',sans-serif
+}
+/* -------------------------------------
+CSS for Sidebar (optional)
+---------------------------------------- */
+div#fugo{
+float:right
+}
+Copy
