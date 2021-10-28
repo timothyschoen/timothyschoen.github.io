@@ -22,7 +22,7 @@ window.onresize = function() {
 function create_topbar() {
 
   let buttons = [];
-  let labels = [["HOME", "./index.html"], ["NEWS", ""], ["ABOUT", "./about.html"], ["CONTACT", "./contact.html"]];
+  let labels = [["HOME", "./index.html"], ["ABOUT", "./about.html"], ["CONTACT", "./contact.html"]];
 
       let topbar = document.createElement("DIV");
       topbar.style.cssText = "border-radius:0%; border:none; outline:none; font-size:12px; color:white; background-color:#141414; position:fixed; top:0px; left:0px;";
@@ -49,6 +49,10 @@ function create_topbar() {
       logo.style.left = "8%"
       logo.style.position = "fixed";
       logo.style.zIndex = "100";
+			logo.onclick = function(){
+				location.href = "./index.html";
+			};
+			
       topbar.appendChild(logo);
 
 	   let logo_right = logo.getBoundingClientRect().right;

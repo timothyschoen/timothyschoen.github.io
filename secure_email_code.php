@@ -23,7 +23,7 @@ $headers = 'From:'. $email . "rn"; // Sender's Email
 $message = wordwrap($message, 70);
 
 // Send Mail By PHP Mail Function
-$status = mail("timschoen123@gmail.com", "Contact Form", $message, $headers);
+$status = mail("info@octagonaudio.com", "Contact Form", $message, $headers);
 
 if($status)
  {
