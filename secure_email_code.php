@@ -1,5 +1,5 @@
 <?php
-//if(isset($_POST["submit"])){
+if(isset($_POST["submit"])){
 // Checking For Blank Fields..
 if($_POST["vname"]==""||$_POST["vemail"]==""||$_POST["vmessage"]==""){
 echo "Fill All Fields..";
@@ -19,9 +19,18 @@ $headers = 'From:'. $email2 . "rn"; // Sender's Email
 $headers .= 'Cc:'. $email2 . "rn"; // Carbon copy to Sender
 // Message lines should not exceed 70 characters (PHP rule), so wrap it
 $message = wordwrap($message, 70);
+
 // Send Mail By PHP Mail Function
-mail("timschoen123@gmail.com", "Contact Form", $message, $headers);
-echo "Your mail has been sent successfuly ! Thank you for your feedback";
+$status = mail("timschoen123@gmail.com", "Contact Form", $message, $headers);
+
+if($status)
+ {
+  echo '<p>Your mail has been sent!</p>';
+  } else {
+   echo '<p>Something went wrong, Please try again!</p>';
 }
-//}
+
+
+}
+}
 }

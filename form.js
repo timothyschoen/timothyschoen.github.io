@@ -47,7 +47,7 @@ function create_form(parent) {
 
 	var submitelement = document.createElement('input'); // Append Submit Button
 	submitelement.setAttribute("type", "submit");
-	submitelement.setAttribute("name", "dsubmit");
+	submitelement.setAttribute("name", "submit");
 	submitelement.setAttribute("value", "Submit");
 	createform.appendChild(submitelement);
 
