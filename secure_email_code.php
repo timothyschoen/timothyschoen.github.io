@@ -18,7 +18,7 @@ echo "Invalid Sender's Email";
 }
 else{
 $message = $_POST['vmessage'];
-$headers = 'From:'. $email2 . "rn"; // Sender's Email
+$headers = 'From:'. $email . "rn"; // Sender's Email
 // Message lines should not exceed 70 characters (PHP rule), so wrap it
 $message = wordwrap($message, 70);
 
