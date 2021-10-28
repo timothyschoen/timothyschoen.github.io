@@ -32,7 +32,7 @@ body {
   margin-top: 10px;
   margin-left: 20px;
   font-weight: bold;
-  color: black;
+  color: #3cbe79;
 }
 
 #greyout { position: relative; text-align: center; color: black; }
