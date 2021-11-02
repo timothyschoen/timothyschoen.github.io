@@ -70,6 +70,9 @@ function OpenTrialWidget(url, panel, color, product_logo, to_hide) {
 
 function main() {
 
+    var iframe = document.getElementById("player");
+    iframe.style.display = "none"
+
     for (let i = 0; i < products.length; i++) {
 
       let name = products[i][0];
@@ -86,7 +89,7 @@ function main() {
 
       let png = document.createElement("img");
       png.src = img;
-	  png.style.cssText = "height:280px; width:auto; top:10px; right:10px; position:absolute;"
+  	  png.style.cssText = "height:280px; width:auto; top:10px; right:10px; position:absolute;"
       panel.appendChild(png);
 
       let product_logo = document.createElement("DIV");
@@ -111,6 +114,17 @@ function main() {
         panel.removeChild(info_button);
         panel.removeChild(try_button);
         panel.removeChild(product_desc);
+        panel.removeChild(png);
+
+        var iframe = document.getElementById("player");
+        iframe.style.display = "block";
+        iframe.style.position = "absolute";
+        iframe.style.bottom="1%"
+        iframe.style.right= "0%";
+        iframe.style.border = "none";
+        iframe.width = "525px";
+        iframe.height = "297px";
+        panel.appendChild(iframe);
 
         let buy_button = document.createElement("BUTTON");
         buy_button.innerHTML += "Buy";
@@ -125,10 +139,10 @@ function main() {
 		create_close_button(panel, color, function(){
 		  panel.removeChild(buy_button);
           panel.removeChild(more_product_desc);
-
           panel.appendChild(info_button);
           panel.appendChild(try_button);
           panel.appendChild(product_desc);
+          panel.appendChild(png);
 		});
       }
 
