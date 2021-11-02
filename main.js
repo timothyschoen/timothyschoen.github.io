@@ -8,6 +8,11 @@ let products = [
 ];
 
 
+var script = document.createElement('script');
+script.src = 'https://code.jquery.com/jquery-3.4.1.min.js';
+script.type = 'text/javascript';
+document.getElementsByTagName('head')[0].appendChild(script);
+
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
@@ -138,11 +143,20 @@ function main() {
 
 		create_close_button(panel, color, function(){
 		  panel.removeChild(buy_button);
+          // hack: reappending the video will stop playback
+          // I tried the jquery way but it doesn't seem to work yet
+          panel.appendChild(iframe);
+          iframe.style.display = "none";
+          $("player").each(function(){
+            this.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*')
+          });
+
           panel.removeChild(more_product_desc);
           panel.appendChild(info_button);
           panel.appendChild(try_button);
           panel.appendChild(product_desc);
           panel.appendChild(png);
+
 		});
       }
 
